@@ -1,6 +1,7 @@
 package observer
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -30,6 +31,9 @@ func NewAPI(url string, timeout time.Duration) *API {
 	return &API{
 		client: &http.Client{
 			Timeout: timeout,
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			},
 		},
 		url: strings.TrimSuffix(url, "/"),
 	}
